@@ -1,5 +1,5 @@
 {
-    "action": "render_list",
+    "action": "render_user",
     "workflows": [
         "wait",
         "ls",
@@ -31,6 +31,6 @@
     "elapsed": "0:00:01",
     "username": "admin",
     "api_key": "sk-obliv\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022HyrI",
-    "workflows_nb": 16,
+    "workflows_nb": 18,
     "cli_version": "1.0.0"
 }

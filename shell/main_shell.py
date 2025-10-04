@@ -5,6 +5,7 @@ import json
 import shlex
 import signal
 from datetime import datetime
+import urllib.request
 
 from modules.keysetup import authenticate, auth_request, get_saved_username
 from modules.get_template import get_saved_api_key
@@ -33,6 +34,33 @@ def command_interrupt_handler(sig, frame):
 # Ne pas configurer le gestionnaire de signal ici - on le fera dans cmdloop
 
 
+
+
+def get_local_version():
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '../VERSION'), 'r') as f:
+            value = f.read().strip()
+            # print(value)  # Remove or comment out debug print
+            return value
+    except Exception:
+        return None
+
+def get_remote_version():
+    url = 'https://raw.githubusercontent.com/BUZZ-zip/obliv-cli/refs/heads/main/VERSION'
+    try:
+        with urllib.request.urlopen(url, timeout=3) as response:
+            value = response.read().decode('utf-8').strip()
+            # print(value)  # Remove or comment out debug print
+            return value
+    except Exception:
+        return None
+
+def check_update_message():
+    local = get_local_version()
+    remote = get_remote_version()
+    if local and remote and local != remote:
+        print(f"Update available: Version {remote} (you have version {local})")
+        print("Type 'update' to update the client.\n")
 
 
 class ForSShell(cmd.Cmd):
@@ -65,8 +93,6 @@ class ForSShell(cmd.Cmd):
             )
             prompt = f"{MAGENTA}{username}@obliv{RESET}:{BLUE}~{RESET}$ "
             workflow_list = list_workflow()
-            save_dashboard_info({"action": "render_list", "workflows": workflow_list})
-            save_dashboard_info({"action": "render_user", "workflows_nb": len(workflow_list) if workflow_list else 0})
         else:
             intro = (
                 "Welcome to Obliv. Type 'help' to see available commands.\n"
@@ -93,6 +119,8 @@ class ForSShell(cmd.Cmd):
         signal_handler.shell = self
         if intro:
             print(intro)
+        check_update_message()
+            
         while True:
             try:
                 signal.signal(signal.SIGINT, signal_handler)
@@ -239,8 +267,23 @@ class ForSShell(cmd.Cmd):
 
     def do_update(self, arg):
         """Update the client"""
-        print()
-        print("Checking for updates...")
+        print("\nUpdating client...")
+        try:
+            import subprocess
+            result = subprocess.run([
+                "git", "pull", "origin", "main"
+            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+            if 'Already up to date' in result.stdout:
+                print("\033[93mClient is already up to date.\033[0m")
+            else:
+                print("\033[92mClient updated successfully. Restarting...\033[0m")
+                import sys, os
+                python = sys.executable
+                os.execv(python, [python] + sys.argv)
+        except subprocess.CalledProcessError as e:
+            print("Error during update:", e.stderr)
+        except Exception as e:
+            print("Error during update:", e)
 
 
     # ---------- Handle unknown commands ----------
@@ -248,6 +291,7 @@ class ForSShell(cmd.Cmd):
         print()
         print(f"{line} : command not found")
         print()
+
 
 
 
