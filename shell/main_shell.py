@@ -115,6 +115,7 @@ class ForSShell(cmd.Cmd):
         print("- refresh: refresh the workflow list")
         print("- run -name <name> | run -uid <uid> | run -number <num> [params...]: execute a workflow")
         print("- export -name <name> -binary_name <binary_name>: export a workflow")
+        print("- update: update the client")
         print()
         
         
@@ -234,6 +235,12 @@ class ForSShell(cmd.Cmd):
             # Remettre notre gestionnaire principal
             signal.signal(signal.SIGINT, signal_handler)
             
+
+
+    def do_update(self, arg):
+        """Update the client"""
+        print()
+        print("Checking for updates...")
 
 
     # ---------- Handle unknown commands ----------

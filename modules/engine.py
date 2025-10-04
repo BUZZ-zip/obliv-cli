@@ -24,51 +24,31 @@ next_node_id=''
 
 
 def stack_push(template):
-        """
-        Ajoute un nœud à la pile.
-        """
-        stack = [{"type": "root", "children": []}]
-        for line in template:
-                line = line.strip()
-                # Node with children: starts with n= and ends with {
-                if line.startswith("n=") and line.endswith("{"):
-                        node_line = line[:-1].strip()  # remove trailing {
-                        node = {}
-                        for item in node_line.split("|"):
-                                if "=" in item:
-                                        key, val = item.split("=", 1)
-                                        if key.strip() == "condition":
-                                                val = val.strip()
-                                                if not (val.startswith('"') and val.endswith('"')):
-                                                        val = f'"{val}"'
-                                                node[key] = val
-                                        else:
-                                                node[key] = val
-                        node["children"] = []
-                        stack[-1]["children"].append(node)
-                        stack.append(node)
-                # Block type (e.g., if-else {)
-                elif line.endswith("{"):
-                        block_type = line.split()[0].replace(":", "")
-                        new_block = {"type": block_type, "children": []}
-                        stack[-1]["children"].append(new_block)
-                        stack.append(new_block)
-                elif line == "}":
-                        stack.pop()
-                elif line.startswith("n="):
-                        node = {}
-                        for item in line.split("|"):
-                                if "=" in item:
-                                        key, val = item.split("=", 1)
-                                        if key.strip() == "condition":
-                                                val = val.strip()
-                                                if not (val.startswith('"') and val.endswith('"')):
-                                                        val = f'"{val}"'
-                                                node[key] = val
-                                        else:
-                                                node[key] = val
-                        stack[-1]["children"].append(node)
-        return stack[0]
+    """
+    Ajoute un nœud à la pile.
+    """
+    stack = [{"type": "root", "children": []}]
+
+    for line in template:
+        line = line.strip()
+        if line.endswith("{"):
+            block_type = line.split()[0].replace(":", "")
+            new_block = {"type": block_type, "children": []}
+            stack[-1]["children"].append(new_block)
+            stack.append(new_block)
+
+        elif line == "}":
+            stack.pop()
+
+        elif line.startswith("n="):
+            node = {}
+            for item in line.split("|"):
+                if "=" in item:
+                    key, val = item.split("=", 1)
+                    node[key] = val
+            stack[-1]["children"].append(node)
+    
+    return stack[0]
 
 
 
