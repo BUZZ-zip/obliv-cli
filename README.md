@@ -1,197 +1,123 @@
-# Obliv
+# Obliv CLI
 
-Obliv is a powerful and flexible CLI workflow automation tool designed for cybersecurity professionals, bug bounty hunters, pentesters, SOC analysts, and anyone who needs to automate complex security tasks. Obliv lets you orchestrate, chain, and automate your favorite tools and scripts, making repetitive and advanced operations easy, reproducible, and auditable.
+Obliv is a powerful workflow automation tool designed for cybersecurity professionals, penetration testers, and SOC analysts. It provides a command-line interface to create, manage, and execute automated workflows for various security tasks.
 
 ## Features
 
-- **Workflow Automation:** Build, run, and share complex workflows for reconnaissance, scanning, exploitation, reporting, and more.
-- **Modular & Extensible:** Easily add new modules, tools, and integrations.
-- **User-Friendly CLI:** Intuitive command-line interface with rich help and feedback.
-- **Configuration Management:** Manage API keys, settings, and environment variables securely.
-- **For Cybersec Pros:** Tailored for bug bounty, pentest, SOC, and blue/red team operations.
-- **Cross-Platform:** Works on Linux, macOS, and Windows (with Python 3.8+).
-
----
+- **Interactive Shell**: User-friendly command-line interface with color coding
+- **Workflow Management**: Create, run, and export custom workflows
+- **Authentication System**: Secure API key-based authentication
+- **Real-time Dashboard**: Monitor workflow execution and client information
+- **Auto-Update System**: Built-in version checking and update mechanism
 
 ## Installation
 
-### 1. Clone the Repository
-
+1. Clone the repository:
 ```bash
 git clone https://github.com/BUZZ-zip/obliv-cli.git
 cd obliv-cli
 ```
 
-### 2. Install Dependencies
-
+2. Create config directory:
 ```bash
-pip install -r requirements.txt
+mkdir -p ~/.obliv
 ```
 
-### 3. Make the CLI Executable
-
+3. Run the main script:
 ```bash
-chmod +x main.sh
+./main.sh
 ```
-
-Or run directly with Python:
-
-```bash
-python3 shell/main_shell.py
-```
-
----
 
 ## Usage
 
-### Running Obliv
-
-```bash
-./main.sh
-# or
-python3 shell/main_shell.py
-```
-
 ### Available Commands
 
-| Command                        | Description                                 |
-|--------------------------------|---------------------------------------------|
-| `help`                         | Show all available commands                 |
-| `scan`                         | Perform a scan using configured tools       |
-| `workflow run`                 | Run a specific workflow                     |
-| `workflow list`                | List all available workflows                |
-| `config set <key> <value>`     | Set a configuration value                   |
-| `config get <key>`             | Get a configuration value                   |
-| `auth <key>`                   | Authenticate with an API key                |
-| `export`                       | Export a workflow as a binary               |
-| `refresh`                      | Refresh the workflow list                   |
-| `clear`                        | Clear the terminal screen                   |
-| `exit`                         | Exit Obliv                                  |
-| `update`                       | Update Obliv to the latest version          |
-
----
-
-## Commands Examples
-
-### 1. Scan
-
+- **help**: Display list of available commands
 ```bash
-obliv scan --target example.com --tool nmap
-```
-_Expected output:_
-```
-[12:00:00] Starting scan on example.com with nmap...
-[12:00:05] Scan complete. Results saved to results/example.com_nmap.txt
+help
 ```
 
-### 2. Run a Workflow
-
+- **auth**: Authenticate with your API key
 ```bash
-obliv workflow run -name recon-basic
-```
-_Expected output:_
-```
-[12:01:00] Running workflow: recon-basic
-[12:01:01] Step 1: Subdomain enumeration...
-[12:01:10] Step 2: Port scan...
-[12:01:20] Workflow completed successfully.
+auth <your-api-key>
 ```
 
-### 3. List Workflows
-
+- **showall**: Display all available workflows
 ```bash
-obliv workflow list
-```
-_Expected output:_
-```
-┏━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Index    ┃ Workflow Name        ┃
-┡━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ 1        │ recon-basic          │
-│ 2        │ full-audit           │
-│ 3        │ web-app-test         │
-└──────────┴──────────────────────┘
+showall
 ```
 
-### 4. Configure Settings
-
+- **run**: Execute a workflow
 ```bash
-obliv config set api_key sk-xxxxxx
-obliv config get api_key
+run -name <workflow_name> [params...]
+run -uid <workflow_uid> [params...]
+run -number <workflow_number> [params...]
 ```
 
-### 5. Help
-
+- **export**: Export a workflow to a binary
 ```bash
-obliv help
+export -name <workflow_name> -binary_name <output_name>
 ```
 
----
+- **refresh**: Refresh the workflow list
+```bash
+refresh
+```
+
+- **clear**: Clear the terminal screen
+```bash
+clear
+```
+
+- **update**: Update the client to the latest version
+```bash
+update
+```
+
+- **exit**: Quit the application and close tmux session
+```bash
+exit
+```
+
+### Dashboard Features
+
+The dashboard displays:
+- Client information (username, API key status)
+- Number of available workflows
+- Client version
+- Real-time workflow execution status
 
 ## Configuration
 
-Obliv uses a configuration file to store API keys and settings.
+### API Key Setup
 
-### Example Configuration File (`~/.obliv/config.json`)
-
+1. Store your API key in `~/.obliv/config.json`:
 ```json
 {
-  "api_key": "sk-xxxxxx",
-  "username": "yourname",
-  "default_workflow": "recon-basic"
+    "api_key": "your-api-key",
+    "username": "your-username"
 }
 ```
 
-You can also set environment variables for sensitive data:
+### Version Management
 
-```bash
-export OBLIV_API_KEY=sk-xxxxxx
-```
-
----
+The client version is stored in the `VERSION` file at the root of the project. The client automatically checks for updates on startup and notifies you when a new version is available.
 
 ## Contributing
 
-We welcome contributions from the community!
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-1. Fork the repository and create your branch:
-   ```bash
-   git checkout -b feature/your-feature
-   ```
-2. Commit your changes and push to your fork.
-3. Open a pull request on GitHub.
+### Development Guidelines
 
-**Coding Standards:**
-- Write clear, concise code and comments.
-- Follow PEP8 for Python code.
-- Add tests for new features when possible.
-
-**Pull Request Process:**
-- Describe your changes clearly.
-- Reference related issues if applicable.
-- Ensure your branch is up to date with `main`.
-
----
+- Use Python 3.x
+- Follow PEP 8 style guide
+- Add appropriate error handling
+- Test your changes thoroughly
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Screenshots
-
-![Obliv CLI Screenshot](docs/screenshot.png)
-
----
-
-## Tips & Best Practices
-
-- Use descriptive workflow names for easy management.
-- Store sensitive keys in environment variables or config files with proper permissions.
-- Regularly update Obliv with the `update` command to get the latest features and fixes.
-- Use `obliv help` or `obliv <command> --help` for detailed usage.
-
----
-
-**Obliv** – Automate, orchestrate, and accelerate your cybersecurity workflows from the command line!
+This project is licensed under the MIT License - see the LICENSE file for details.
