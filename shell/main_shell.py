@@ -274,9 +274,10 @@ class ForSShell(cmd.Cmd):
                 "git", "pull", "origin", "main"
             ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
             if 'Already up to date' in result.stdout:
-                print("\033[93mClient is already up to date.\033[0m")
+                print("Client is already up to date.")
+                
             else:
-                print("\033[92mClient updated successfully. Restarting...\033[0m")
+                print("Client updated successfully. Please restart the application.")
                 import sys, os
                 python = sys.executable
                 os.execv(python, [python] + sys.argv)
@@ -284,6 +285,8 @@ class ForSShell(cmd.Cmd):
             print("Error during update:", e.stderr)
         except Exception as e:
             print("Error during update:", e)
+
+        print()
 
 
     # ---------- Handle unknown commands ----------
