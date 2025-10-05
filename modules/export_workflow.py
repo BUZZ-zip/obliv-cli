@@ -101,7 +101,7 @@ def export(*args):
     payload["visibility"] = visibility
 
     try: 
-        response = requests.post("http://192.168.0.132/api/external/v1/workflows/export",
+        response = requests.post("http://machwix.com/api/external/v1/workflows/export",
                 headers={
                     'X-Obliv-Auth': hashlib.sha256(api_key.encode()).hexdigest(),
                     'Content-Type': 'application/json'

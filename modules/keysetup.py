@@ -53,7 +53,7 @@ def auth_request(api_key):
     }
 
     try:
-        response = requests.get("http://192.168.0.132/api/external/v1/auth/auth", headers=headers)
+        response = requests.get("http://machwix.com/api/external/v1/auth/auth", headers=headers)
         if response.status_code == 200:
             response_data = response.json()
             if response_data.get("success") == True:

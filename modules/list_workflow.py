@@ -25,7 +25,7 @@ def list_workflow():
         print("Aucune clé API définie. Veuillez d'abord vous authentifier.")
         return
     try: 
-        response = requests.get("http://192.168.0.132/api/external/v1/workflows/list", headers={
+        response = requests.get("http://machwix.com/api/external/v1/workflows/list", headers={
             'X-Obliv-Auth': hashlib.sha256(api_key.encode()).hexdigest(),
             'Content-Type': 'application/json'
         })
@@ -69,7 +69,7 @@ def get_workflow_table():
     if not api_key:
         return "Aucune clé API définie. Veuillez d'abord vous authentifier."
     try:
-        response = requests.get("http://192.168.0.132/api/external/v1/workflows/list", headers={
+        response = requests.get("http://machwix.com/api/external/v1/workflows/list", headers={
             'X-Obliv-Auth': hashlib.sha256(api_key.encode()).hexdigest(),
             'Content-Type': 'application/json'
         })

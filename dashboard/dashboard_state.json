@@ -1,0 +1,18 @@
+{
+    "action": "render_user",
+    "username": "cbruyant",
+    "api_key": "sk-obliv\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022B0tN",
+    "cli_version": "1.0.0",
+    "workflows": [
+        "dns"
+    ],
+    "current_workflow": "wait",
+    "mode": "verbose",
+    "variables": {},
+    "status": "Completed",
+    "start_time": "2025-10-04T15:24:14.994286",
+    "number_node": 3,
+    "current_node": 3,
+    "current_node_name": "node_2",
+    "elapsed": "0:00:04"
+}

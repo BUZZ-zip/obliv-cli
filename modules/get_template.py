@@ -78,7 +78,7 @@ def get_workflow(name, id):
 
     
     try: 
-        response = requests.post("http://192.168.0.132/api/external/v1/workflows/template",
+        response = requests.post("http://machwix.com/api/external/v1/workflows/template",
                 headers={
                     'X-Obliv-Auth': hashlib.sha256(api_key.encode()).hexdigest(),
                     'Content-Type': 'application/json'
