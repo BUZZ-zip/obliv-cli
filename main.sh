@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Force UTF-8 and 256 colors
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export TERM=xterm-256color
+
 SESSION="SHADOW"
 
 # Vérifie si la session existe déjà
