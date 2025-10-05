@@ -16,7 +16,7 @@ DASHBOARD_DIR = Path("dashboard")
 DASHBOARD_FILE = DASHBOARD_DIR / "dashboard_state.json"
 DASHBOARD_DIR.mkdir(exist_ok=True)
 
-console = Console(force_terminal=True, color_system="256")
+console = Console(force_terminal=True, color_system="auto", legacy_windows=True)
 
 def load_dashboard():
     """Charge le JSON depuis le fichier."""

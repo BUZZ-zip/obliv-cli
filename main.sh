@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Force UTF-8 and 256 colors
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+# Force 256 colors support
 export TERM=xterm-256color
 
 SESSION="SHADOW"
@@ -12,7 +10,7 @@ tmux has-session -t $SESSION 2>/dev/null
 if [ $? != 0 ]; then
 
     # Crée une nouvelle session détachée avec le shell interactif
-    tmux new-session -d -s $SESSION "TMUX_SESSION=$SESSION python3 -m shell.main_shell.py"
+    TERM=screen-256color tmux new-session -d -s $SESSION "TMUX_SESSION=$SESSION python3 -m shell.main_shell.py"
 
     # Configuration tmux pour cette session uniquement
     # Active la status bar
